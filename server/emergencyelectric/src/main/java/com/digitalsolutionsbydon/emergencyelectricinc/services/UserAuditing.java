@@ -24,7 +24,6 @@ public class UserAuditing implements AuditorAware<String>
         {
             uName = "SYSTEM";
         }
-
         return Optional.of(uName);
     }
 }
