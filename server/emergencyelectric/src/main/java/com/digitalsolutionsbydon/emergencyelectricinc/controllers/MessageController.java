@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,22 +32,28 @@ public class MessageController
     }
 
     @GetMapping(value="", produces = {"application/json"})
-    public ResponseEntity<?> getAllMessages()
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getAllMessages(HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " accessed");
         List<Message> allMessages = messageService.findAll();
         return new ResponseEntity<>(allMessages, HttpStatus.OK);
     }
 
-    @GetMapping(value="/:id", produces={"application/json"})
-    public ResponseEntity<?> getMessageById(@PathVariable long id)
+    @GetMapping(value="/{id}", produces={"application/json"})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getMessageById(@PathVariable long id, HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " accessed");
         Message message = messageService.findMessageById(id);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/:id")
-    public ResponseEntity<?> deleteMessageById(@PathVariable long id)
+    @DeleteMapping(value="/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteMessageById(@PathVariable long id, HttpServletRequest request)
     {
+        logger.info(request.getMethod() + " " + request.getRequestURI() + " accessed");
         messageService.deleteMessageById(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
