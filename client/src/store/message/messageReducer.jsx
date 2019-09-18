@@ -3,6 +3,7 @@ import {
   ADD_MESSAGE_FAILURE,
   ADD_MESSAGE_START,
   ADD_MESSAGE_SUCCESS,
+  TOGGLE_MESSAGE,
 } from './messageTypes';
 
 const initialState = {
@@ -28,8 +29,13 @@ const addMessageFailure = (state, payload) => ({
   isSuccess: false,
   errors: payload,
 });
+const toggleMessage = (state, payload) => ({
+  ...state,
+  isSuccess: !state.isSuccess,
+});
 export default createReducer(initialState, {
   [ADD_MESSAGE_START]: addMessageStart,
   [ADD_MESSAGE_SUCCESS]: addMessageSuccess,
   [ADD_MESSAGE_FAILURE]: addMessageFailure,
+  [TOGGLE_MESSAGE]: toggleMessage,
 });
