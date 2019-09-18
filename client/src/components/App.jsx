@@ -1,16 +1,24 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { ActionsProvider } from '../contexts/ActionsContext';
 import { useMessageActions } from '../store/message/useMessageActions';
 import Navigation from './shared/navigation/Navigation';
 import Footer from './shared/footer/Footer';
+import LandingPage from './landingPage/LandingPage';
 
 function App () {
   const messageActions = useMessageActions();
   return (
     <ActionsProvider value={{ messageActions }}>
-      <Navigation/>
-      <h1>Hello World</h1>
-      <Footer/>
+      <Navigation />
+      <Switch>
+        <Route
+          exact
+          path='/'
+          component={LandingPage}
+        />
+      </Switch>
+      <Footer />
     </ActionsProvider>
   );
 }
