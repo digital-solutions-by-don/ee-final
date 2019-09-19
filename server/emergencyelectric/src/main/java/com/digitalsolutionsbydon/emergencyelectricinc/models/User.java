@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +18,19 @@ public class User extends Auditable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, unique = true)
-    @NotNull
+    @Column(nullable = false,
+            unique = true)
+    @NotEmpty(message = "Username cannot be empty")
+    @NotNull(message = "Username cannot be Null")
     private String username;
 
     @Column(nullable = false)
-    @NotNull
+    @NotEmpty(message = "Password cannot be empty")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
@@ -34,11 +38,11 @@ public class User extends Auditable
     {
     }
 
-    public User(@NotNull String username, @NotNull String password, List<UserRoles> userRoles)
+    public User(@NotEmpty(message = "Username cannot be empty") @NotNull(message = "Username cannot be Null") String username, @NotEmpty(message = "Password cannot be empty") String password, List<UserRoles> userRoles)
     {
         setUsername(username);
         setPassword(password);
-        for (UserRoles ur: userRoles)
+        for (UserRoles ur : userRoles)
         {
             ur.setUser(this);
         }
