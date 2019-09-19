@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Scrollchor from 'react-scrollchor';
 import { Button, Container } from 'react-bootstrap';
 import { Section } from '../../customStyles/Section';
@@ -24,11 +25,12 @@ function Header () {
           </Scrollchor>
           {/* TODO: Switch to Link Component from the Router */}
           <Button
-            href='/apply'
             variant='success'
             size='lg'
           >
-            Apply Now
+            <Link to='/login'>
+              Apply Now
+            </Link>
           </Button>
         </Container>
       </Section>
