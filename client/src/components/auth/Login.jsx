@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
-import logo from '../../images/EmergencyElectricLogo.svg';
-import { useForm } from '../../hooks/useForm';
+import { Field, Form, withFormik } from 'formik';
+import * as Yup from 'yup';
 import { Section } from '../customStyles/Section';
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form as BootStrapForm,
+  Row,
+} from 'react-bootstrap';
+import logo from '../../images/EmergencyElectricLogo.svg';
+import { useSelector } from 'react-redux';
 
-function Login ({ match: { url } }) {
-  const [register, setRegister] = useState(false);
-  const [formValues, handleChange, handleSubmit, resetForm] = useForm({
-    username: '',
-    password: '',
-  }, doSubmit);
-
+function Login2 ({ values, errors, touched, match: { url }, history: { push } }) {
+  const [isRegister, setIsRegister] = useState(false);
+  const isRegisterSuccess = useSelector(state => state.auth.isRegisterSuccess);
   useEffect(() => {
     if (url === '/register') {
-      setRegister(true);
+      setIsRegister(true);
     } else {
-      setRegister(false);
+      setIsRegister(false);
     }
   }, [url]);
 
-  function doSubmit () {
-    console.log(formValues);
-  }
+  useEffect(() => {
+    if (isRegisterSuccess) {
+      push('/login');
+    }
+  }, [isRegisterSuccess]);
 
-  const { username, password } = formValues;
   return (
     <Section header>
       <Container
@@ -36,58 +42,50 @@ function Login ({ match: { url } }) {
             variant='top'
             src={logo}
           />
-          <Card.Header className='text-center'>{register
+          <Card.Header className='text-center'>{isRegister
             ? 'Register'
             : 'Login'}</Card.Header>
           <Card.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group as={Row}>
+            <Form>
+              <BootStrapForm.Group as={Row}>
                 <Col>
-                  <Form.Label
-                    sm='2'
-                  >Username</Form.Label>
-                  <Form.Control
-                    value={username}
-                    onChange={handleChange}
+                  <BootStrapForm.Label sm='2'>Username</BootStrapForm.Label>
+                  <Field
                     name='username'
+                    type='text'
+                    placeholder='Username'
+                    className='form-control'
                   />
+                  {touched.username && errors.username &&
+                  <span className='text-danger small'>{errors.username}</span>}
                 </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
+              </BootStrapForm.Group>
+              <BootStrapForm.Group as={Row}>
                 <Col>
-                  <Form.Label
-                    sm='2'
-                  >Password</Form.Label>
-                  <Form.Control
-                    value={password}
-                    onChange={handleChange}
+                  <BootStrapForm.Label sm='2'>Password</BootStrapForm.Label>
+                  <Field
                     name='password'
                     type='password'
+                    placeholder='Password'
+                    className='form-control'
                   />
+                  {touched.password && errors.password &&
+                  <span className='text-danger small'>{errors.password}</span>}
                 </Col>
-              </Form.Group>
+              </BootStrapForm.Group>
               <Row>
                 <Col>
                   <Button
                     variant='primary'
-                    type='submit'
                     className='mr-2'
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    variant='outline-primary'
-                    type='button'
-                    onClick={resetForm}
-                  >
-                    Clear
-                  </Button>
+                    type='submit'
+                  >Submit</Button>
                 </Col>
               </Row>
             </Form>
           </Card.Body>
           <Card.Footer className='text-center'>
-            {register ? <Link to='/login'>Click here to Login</Link> :
+            {isRegister ? <Link to='/login'>Click Here to Login</Link> :
               <Link to='/register'>Click here to Register</Link>}
           </Card.Footer>
         </Card>
@@ -96,4 +94,30 @@ function Login ({ match: { url } }) {
   );
 }
 
-export default Login;
+const LoginWithFormik = withFormik({
+  mapPropsToValues ({ username, password }) {
+    return {
+      username: username || '',
+      password: password || '',
+    };
+  },
+  validationSchema: Yup.object()
+    .shape({
+      username: Yup.string()
+        .required('Username is required')
+        .min(5, 'Username must be at least 5 characters long'),
+      password: Yup.string()
+        .required('Password is required')
+        .min(5, 'Password must be at least 5 characters long'),
+    }),
+  handleSubmit (values, formikBag) {
+    if (formikBag.props.match.url === '/register') {
+      formikBag.props.register(values);
+    } else {
+      formikBag.props.login(values);
+    }
+    formikBag.resetForm({ username: '', password: '' });
+  },
+})(Login2);
+
+export default LoginWithFormik;
