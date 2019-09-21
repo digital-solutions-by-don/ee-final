@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +63,10 @@ public class UserServiceImpl implements UserService, UserDetailsService
         User foundUser = userRepository.findByUsername(user.getUsername());
         if (foundUser != null) {
             throw new BadRequestException(user.getUsername()+" is already taken.");
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches("",user.getPassword())) {
+            throw new BadRequestException("Password cannot be blank");
         }
         User newUser = new User();
         newUser.setUsername(user.getUsername());
