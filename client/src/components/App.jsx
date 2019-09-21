@@ -6,20 +6,26 @@ import Navigation from './shared/navigation/Navigation';
 import Footer from './shared/footer/Footer';
 import LandingPage from './landingPage/LandingPage';
 import Login from './auth/Login';
+import { useAuthActions } from '../store/auth/useAuthActions';
 
 function App () {
   const messageActions = useMessageActions();
+  const authActions = useAuthActions();
   return (
-    <ActionsProvider value={{ messageActions }}>
+    <ActionsProvider value={{ authActions, messageActions }}>
       <Navigation />
       <Switch>
         <Route
           path='/register'
-          component={Login}
+          render={props => <Login
+            register={authActions.register}
+            login={authActions.login} {...props} />}
         />
         <Route
           path='/login'
-          component={Login}
+          render={props => <Login
+            register={authActions.register}
+            login={authActions.login} {...props} />}
         />
         <Route
           exact
