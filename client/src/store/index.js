@@ -4,7 +4,9 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import messages from './message/messageReducer';
 import auth from './auth/authReducer';
-const rootReducer = combineReducers({ auth, messages });
+import user from './user/userReducer';
+
+const rootReducer = combineReducers({ auth, messages, user });
 
 const middleware = [thunk, logger];
 const enhancers = applyMiddleware(...middleware);
