@@ -27,11 +27,6 @@ const authActionStart = (state, payload) => ({
 });
 
 const authActionFail = (state, payload) => {
-  const errors = {};
-  console.log(payload.data);
-  if (payload && payload.data && payload.data.errors) {
-
-  }
   return ({
     ...state,
     isLoading: false,
