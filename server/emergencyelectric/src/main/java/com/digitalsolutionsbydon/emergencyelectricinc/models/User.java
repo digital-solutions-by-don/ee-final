@@ -34,6 +34,10 @@ public class User extends Auditable
     @JsonIgnoreProperties("user")
     private List<UserRoles> userRoles = new ArrayList<>();
 
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
+    private List<UserProfiles> userProfiles = new ArrayList<>();
+
     public User()
     {
     }
@@ -42,11 +46,27 @@ public class User extends Auditable
     {
         setUsername(username);
         setPassword(password);
+        for(UserRoles ur: userRoles)
+        {
+            ur.setUser(this);
+        }
+        this.userRoles = userRoles;
+    }
+
+    public User(@NotEmpty(message = "Username cannot be empty") @NotNull(message = "Username cannot be Null") String username, @NotEmpty(message = "Password cannot be empty") String password, List<UserRoles> userRoles, List<UserProfiles> userProfiles)
+    {
+        setUsername(username);
+        setPassword(password);
         for (UserRoles ur : userRoles)
         {
             ur.setUser(this);
         }
         this.userRoles = userRoles;
+        for (UserProfiles up : userProfiles)
+        {
+            up.setUser(this);
+        }
+        this.userProfiles = userProfiles;
     }
 
     public long getId()
