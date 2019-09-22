@@ -55,6 +55,17 @@ public class UserServiceImpl implements UserService, UserDetailsService
                              .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + " was not found."));
     }
 
+    @Override
+    public User findUserByUsername(String username) throws ResourceNotFoundException
+    {
+        User currentUser = userRepository.findByUsername(username);
+        if(currentUser!=null) {
+            return currentUser;
+        } else {
+            throw new ResourceNotFoundException("The " + username + " is not in the system");
+        }
+    }
+
     @Transactional
     @Modifying
     @Override
