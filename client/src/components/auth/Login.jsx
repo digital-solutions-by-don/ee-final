@@ -17,6 +17,8 @@ import { useSelector } from 'react-redux';
 function Login2 ({ values, errors, touched, match: { url }, history: { push } }) {
   const [isRegister, setIsRegister] = useState(false);
   const isRegisterSuccess = useSelector(state => state.auth.isRegisterSuccess);
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const apiErrors = useSelector(state => state.auth.errors);
   useEffect(() => {
     if (url === '/register') {
       setIsRegister(true);
@@ -29,7 +31,13 @@ function Login2 ({ values, errors, touched, match: { url }, history: { push } })
     if (isRegisterSuccess) {
       push('/login');
     }
-  }, [isRegisterSuccess]);
+  }, [isRegisterSuccess, push]);
+
+  useEffect(()=> {
+    if (isAuth) {
+      push('/dashboard')
+    }
+  }, [isAuth, push]);
 
   return (
     <Section header>
@@ -46,6 +54,7 @@ function Login2 ({ values, errors, touched, match: { url }, history: { push } })
             ? 'Register'
             : 'Login'}</Card.Header>
           <Card.Body>
+            {isRegisterSuccess && <span className='text-success small'>You have been successfully registered!  Please login in to continue.</span>}
             <Form>
               <BootStrapForm.Group as={Row}>
                 <Col>
@@ -58,6 +67,8 @@ function Login2 ({ values, errors, touched, match: { url }, history: { push } })
                   />
                   {touched.username && errors.username &&
                   <span className='text-danger small'>{errors.username}</span>}
+                  {apiErrors && apiErrors.data && apiErrors.data.detail &&
+                  <span className='text-danger small'>{apiErrors.data.detail}</span>}
                 </Col>
               </BootStrapForm.Group>
               <BootStrapForm.Group as={Row}>
