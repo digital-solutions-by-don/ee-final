@@ -19,6 +19,10 @@ public class Phone extends Auditable
     @JsonIgnoreProperties("phone")
     private List<ProfilePhone> profilePhones = new ArrayList<>();
 
+    public Phone()
+    {
+    }
+
     public Phone(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
