@@ -15,13 +15,13 @@ public class ProfilePhone extends Auditable implements Serializable
     @Id
     @ManyToOne
     @JoinColumn(name="profileId", referencedColumnName = "id")
-    @JsonIgnoreProperties("profilePhone")
+    @JsonIgnoreProperties("profilePhones")
     private Profile profile;
 
     @Id
     @ManyToOne
     @JoinColumn(name="phoneId", referencedColumnName = "id")
-    @JsonIgnoreProperties("profilePhone")
+    @JsonIgnoreProperties("profilePhones")
     private Phone phone;
 
     public ProfilePhone()
