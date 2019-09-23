@@ -15,13 +15,13 @@ public class ProfileEmail extends Auditable implements Serializable
     @Id
     @ManyToOne
     @JoinColumn(name="profileId", referencedColumnName = "id")
-    @JsonIgnoreProperties("profileEmail")
+    @JsonIgnoreProperties("profileEmails")
     private Profile profile;
 
     @Id
     @ManyToOne
     @JoinColumn(name="emailId", referencedColumnName = "id")
-    @JsonIgnoreProperties("profileEmail")
+    @JsonIgnoreProperties("profileEmails")
     private Email email;
 
     public ProfileEmail()
