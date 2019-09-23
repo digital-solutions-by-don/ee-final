@@ -10,11 +10,11 @@ public interface ProfileRepository extends CrudRepository<Profile, Long>
 {
     @Transactional
     @Modifying
-    @Query(value = "delete from UserProfiles where (userID = :userId)")
+    @Query(value = "delete from UserProfiles where (USER_ID = :userId)")
     void deleteUserProfilesByUserId(long userId);
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO UserProfiles(userId, profileId) VALUES(:userId, :profileId)", nativeQuery = true)
+    @Query(value = "INSERT INTO UserProfiles(USER_ID, PROFILE_ID) VALUES(:userId, :profileId)", nativeQuery = true)
     void insertIntoUserRoles(long userId, long profileId);
 }
