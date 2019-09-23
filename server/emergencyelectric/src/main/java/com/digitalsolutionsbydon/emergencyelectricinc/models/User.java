@@ -115,6 +115,16 @@ public class User extends Auditable
         this.userRoles = userRoles;
     }
 
+    public List<UserProfiles> getUserProfiles()
+    {
+        return userProfiles;
+    }
+
+    public void setUserProfiles(List<UserProfiles> userProfiles)
+    {
+        this.userProfiles = userProfiles;
+    }
+
     public List<SimpleGrantedAuthority> getAuthority()
     {
         List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
