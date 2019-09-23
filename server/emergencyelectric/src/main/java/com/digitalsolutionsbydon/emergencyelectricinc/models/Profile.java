@@ -25,19 +25,19 @@ public class Profile extends Auditable
 
     @OneToMany(mappedBy = "profile")
     @JsonIgnoreProperties("profile")
-    List<UserProfiles> userProfiles = new ArrayList<>();
+    private List<UserProfiles> userProfiles = new ArrayList<>();
 
     @OneToMany(mappedBy="profile", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("profile")
-    List<ProfileAddress> profileAddresses = new ArrayList<>();
+    private List<ProfileAddress> profileAddresses = new ArrayList<>();
 
     @OneToMany(mappedBy="profile", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("profile")
-    List<ProfilePhone> profilePhones = new ArrayList<>();
+    private List<ProfilePhone> profilePhones = new ArrayList<>();
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("profile")
-    List<ProfileEmail> profileEmails = new ArrayList<>();
+    private List<ProfileEmail> profileEmails = new ArrayList<>();
 
     public Profile()
     {
