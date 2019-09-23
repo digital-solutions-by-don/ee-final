@@ -3,6 +3,7 @@ package com.digitalsolutionsbydon.emergencyelectricinc.services;
 import com.digitalsolutionsbydon.emergencyelectricinc.exceptions.BadRequestException;
 import com.digitalsolutionsbydon.emergencyelectricinc.exceptions.ResourceNotFoundException;
 import com.digitalsolutionsbydon.emergencyelectricinc.models.User;
+import com.digitalsolutionsbydon.emergencyelectricinc.models.UserProfiles;
 import com.digitalsolutionsbydon.emergencyelectricinc.models.UserRoles;
 import com.digitalsolutionsbydon.emergencyelectricinc.repositories.RoleRepository;
 import com.digitalsolutionsbydon.emergencyelectricinc.repositories.UserRepository;
@@ -88,6 +89,12 @@ public class UserServiceImpl implements UserService, UserDetailsService
             newRoles.add(new UserRoles(newUser, ur.getRole()));
         }
         newUser.setUserRoles(newRoles);
+        List<UserProfiles> newProfile = new ArrayList<>();
+        for(UserProfiles up: user.getUserProfiles())
+        {
+            newProfile.add(new UserProfiles(newUser, up.getProfile()));
+        }
+        newUser.setUserProfiles(newProfile);
         return userRepository.save(newUser);
     }
 
