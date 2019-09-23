@@ -29,7 +29,7 @@ public class Address extends Auditable
 
     @OneToMany(mappedBy = "address")
     @JsonIgnoreProperties("address")
-    List<ProfileAddress> profileAddresses = new ArrayList<>();
+    private List<ProfileAddress> profileAddresses = new ArrayList<>();
 
     public Address()
     {
