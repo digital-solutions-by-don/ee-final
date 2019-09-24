@@ -65,6 +65,8 @@ public class ProfileServiceImpl implements ProfileService
         return profileRepository.save(newProfile);
     }
 
+    @Transactional
+    @Modifying
     @Override
     public Profile updateProfileById(Profile profile, long id)
     {
