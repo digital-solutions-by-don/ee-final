@@ -14,7 +14,7 @@ import {
 import logo from '../../images/EmergencyElectricLogo.svg';
 import { useSelector } from 'react-redux';
 
-function Login2 ({ values, errors, touched, match: { url }, history: { push } }) {
+function Login ({ values, errors, touched, match: { url }, history: { push } }) {
   const [isRegister, setIsRegister] = useState(false);
   const isRegisterSuccess = useSelector(state => state.auth.isRegisterSuccess);
   const isAuth = useSelector(state => state.auth.isAuth);
@@ -129,6 +129,6 @@ const LoginWithFormik = withFormik({
     }
     formikBag.resetForm({ username: '', password: '' });
   },
-})(Login2);
+})(Login);
 
 export default LoginWithFormik;
