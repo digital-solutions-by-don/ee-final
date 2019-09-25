@@ -55,9 +55,9 @@ public class SeedData implements CommandLineRunner
         User u1 = new User("admin", "password", admins);
         User u2 = new User("employee", "password", employees);
         User u3 = new User("user", "password", users);
-        userService.save(u1);
-        userService.save(u2);
-        userService.save(u3);
+        u1 = userService.save(u1);
+        u2 = userService.save(u2);
+        u3 = userService.save(u3);
 
 
         Address a1 = new Address("220 Autumn Ridge Dr NW", "Apt 216", "Corydon", "IN", "47112");
@@ -79,10 +79,8 @@ public class SeedData implements CommandLineRunner
         List<ProfileEmail> pe = new ArrayList<>();
         pe.add(new ProfileEmail(new Profile(), e1));
         Profile profile = new Profile("Donald", "Scott", "Whitely", "Don", pa, pp, pe);
-        profile = profileService.saveProfile(profile);
+        profile = profileService.saveProfile(profile, u3);
         List<UserProfiles> userProfile = new ArrayList<>();
         userProfile.add(new UserProfiles(new User(), profile));
-        User u4 = new User("donald", "123456", users, userProfile);
-        u4 = userService.save(u4);
     }
 }
