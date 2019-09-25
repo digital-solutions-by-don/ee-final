@@ -104,7 +104,8 @@ public class UserServiceImpl implements UserService, UserDetailsService
     public User update(User user, long id)
     {
         User updateUser = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User with id:" + id + " was not found."));
-        if (user.getUsername()!=null) {
+        if (user.getUsername()!=null && !user.getUsername()
+                                             .equals(updateUser.getUsername()))  {
             if (userRepository.findByUsername(user.getUsername())!=null)
             {
                 throw new BadRequestException(user.getUsername()+" is already taken.");
