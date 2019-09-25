@@ -10,12 +10,12 @@ public interface RoleRepository extends CrudRepository<Role, Long>
 {
     @Transactional
     @Modifying
-    @Query(value = "delete from UserRoles where (userID = :userId)")
+    @Query(value = "delete from UserRoles where (USER_ID = :userId)")
     void deleteUserRolesByUserId(long userId);
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO UserRoles(userId, roleId) VALUES(:userId, :roleId)", nativeQuery = true)
+    @Query(value = "INSERT INTO USER_ROLES(USER_ID, ROLE_ID) VALUES(:userId, :roleId)", nativeQuery = true)
     void insertIntoUserRoles(long userId, long roleId);
 
     Role findByName(String name);
